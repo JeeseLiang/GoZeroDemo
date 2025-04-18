@@ -41,8 +41,8 @@ type (
 
 	Article struct {
 		Id      int64          `db:"id"`
-		Title   sql.NullString `db:"title"`
-		Content sql.NullString `db:"content"`
+		Title   string `db:"title"`
+		Content string `db:"content"`
 	}
 )
 

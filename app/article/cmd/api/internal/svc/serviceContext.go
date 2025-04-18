@@ -2,20 +2,18 @@ package svc
 
 import (
 	"GoZeroDemo/app/article/cmd/api/internal/config"
-	"GoZeroDemo/app/article/model"
-	"github.com/zeromicro/go-zero/core/stores/redis"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"GoZeroDemo/app/article/cmd/rpc/article"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	RedisClient  *redis.Redis
-	ArticleModel model.ArticleModel
+	Config     config.Config
+	ArticleRpc article.ArticleZrpcClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:       c,
-		ArticleModel: model.NewArticleModel(sqlx.NewMysql(c.DB.DataSource), c.Cache),
+		Config:     c,
+		ArticleRpc: article.NewArticleZrpcClient(zrpc.MustNewClient(c.ArticleRpcConf)),
 	}
 }
